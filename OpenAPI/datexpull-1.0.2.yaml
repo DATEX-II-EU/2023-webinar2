@@ -65,8 +65,8 @@ paths:
 components:
   schemas:
     MessageContainer:
-      $ref: "JsonSchema/DATEXII_3_MessageContainer.json#/definitions/MessageContainer"
+      $ref: "../JsonSchema/DATEXII_3_MessageContainer.json#/definitions/MessageContainer"
     ExchangheInformation:
-      $ref: "JsonSchema/DATEXII_3_ExchangeInformation.json#/definitions/ExchangeInformation"
+      $ref: "../JsonSchema/DATEXII_3_ExchangeInformation.json#/definitions/ExchangeInformation"
     Situation:
-      $ref: "JsonSchema/DATEXII_3_Situation.json#/definitions/Situation"
+      $ref: "../JsonSchema/DATEXII_3_Situation.json#/definitions/Situation"
