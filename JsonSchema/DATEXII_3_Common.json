@@ -1,0 +1,308 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "AngleInDegrees": {
+      "$ref": "DATEXII_3_Common.json#/definitions/NonNegativeInteger",
+      "minimum": 0.0,
+      "maximum": 359.0
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "CountryCode": {
+      "$ref": "DATEXII_3_Common.json#/definitions/String",
+      "maxLength": 2
+    },
+    "DateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ExtensionTypeG": {
+      "title": "ExtensionTypeG",
+      "type": "object",
+      "additionalItems": true
+    },
+    "Float": {
+      "type": "number"
+    },
+    "HeaderInformation": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "informationStatus": {
+          "$ref": "DATEXII_3_Common.json#/definitions/InformationStatusEnumG"
+        },
+        "headerInformationExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      },
+      "required": [
+        "informationStatus"
+      ]
+    },
+    "InformationStatusEnum": {
+      "type": "string",
+      "enum": [
+        "real",
+        "securityExercise",
+        "technicalExercise",
+        "test",
+        "extendedG"
+      ]
+    },
+    "InformationStatusEnumG": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "DATEXII_3_Common.json#/definitions/InformationStatusEnum"
+        },
+        "extendedValueG": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "Integer": {
+      "type": "string"
+    },
+    "InternationalIdentifier": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "country": {
+          "$ref": "DATEXII_3_Common.json#/definitions/CountryCode"
+        },
+        "nationalIdentifier": {
+          "$ref": "DATEXII_3_Common.json#/definitions/String"
+        },
+        "internationalIdentifierExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      },
+      "required": [
+        "country",
+        "nationalIdentifier"
+      ]
+    },
+    "Language": {
+      "type": "string"
+    },
+    "LongString": {
+      "type": "string"
+    },
+    "MetresAsFloat": {
+      "$ref": "DATEXII_3_Common.json#/definitions/Float"
+    },
+    "MetresAsNonNegativeInteger": {
+      "$ref": "DATEXII_3_Common.json#/definitions/NonNegativeInteger"
+    },
+    "MultilingualString": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "DATEXII_3_Common.json#/definitions/MultiLingualStringValue"
+          }
+        }
+      }
+    },
+    "MultiLingualStringValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lang": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lang",
+        "value"
+      ]
+    },
+    "NamedArea": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "namedAreaExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      }
+    },
+    "NamedAreaG": {
+      "type": "object",
+      "additionalItems": true,
+      "properties": {
+        "locationReferencingNamedArea": {
+          "$ref": "DATEXII_3_LocationReferencing.json#/definitions/NamedArea"
+        },
+        "locationReferencingNutsNamedArea": {
+          "$ref": "DATEXII_3_LocationReferencing.json#/definitions/NutsNamedArea"
+        },
+        "locationReferencingIsoNamedArea": {
+          "$ref": "DATEXII_3_LocationReferencing.json#/definitions/IsoNamedArea"
+        },
+        "locationExtensionNamedAreaExtended": {
+          "$ref": "DATEXII_3_LocationExtension.json#/definitions/NamedAreaExtended"
+        }
+      }
+    },
+    "NonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0.0
+    },
+    "OverallPeriod": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "overallStartTime": {
+          "$ref": "DATEXII_3_Common.json#/definitions/DateTime"
+        },
+        "overallEndTime": {
+          "$ref": "DATEXII_3_Common.json#/definitions/DateTime"
+        },
+        "overallPeriodExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      },
+      "required": [
+        "overallStartTime"
+      ]
+    },
+    "PayloadPublication": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "lang": {
+          "$ref": "DATEXII_3_Common.json#/definitions/Language"
+        },
+        "publicationTime": {
+          "$ref": "DATEXII_3_Common.json#/definitions/DateTime"
+        },
+        "publicationCreator": {
+          "$ref": "DATEXII_3_Common.json#/definitions/InternationalIdentifier"
+        },
+        "payloadPublicationExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      },
+      "required": [
+        "lang",
+        "publicationTime",
+        "publicationCreator"
+      ]
+    },
+    "PayloadPublicationG": {
+      "type": "object",
+      "additionalItems": true,
+      "properties": {
+        "versionG": {
+          "type": "string",
+          "default": "3.4"
+        },
+        "modelBaseVersionG": {
+          "type": "string",
+          "default": "3"
+        },
+        "extensionNameG": {
+          "type": "string"
+        },
+        "extensionVersionG": {
+          "type": "string"
+        },
+        "profileNameG": {
+          "type": "string"
+        },
+        "profileVersionG": {
+          "type": "string"
+        },
+        "situationSituationPublication": {
+          "$ref": "DATEXII_3_Situation.json#/definitions/SituationPublication"
+        }
+      },
+      "required": [
+        "modelBaseVersionG"
+      ]
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "idG": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "idG"
+      ]
+    },
+    "String": {
+      "type": "string",
+      "maxLength": 1024
+    },
+    "Validity": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "validityStatus": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ValidityStatusEnumG"
+        },
+        "validityTimeSpecification": {
+          "$ref": "DATEXII_3_Common.json#/definitions/OverallPeriod"
+        },
+        "validityExtensionG": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ExtensionTypeG"
+        }
+      },
+      "required": [
+        "validityStatus",
+        "validityTimeSpecification"
+      ]
+    },
+    "ValidityStatusEnum": {
+      "type": "string",
+      "enum": [
+        "active",
+        "planned",
+        "suspended",
+        "definedByValidityTimeSpec",
+        "extendedG"
+      ]
+    },
+    "ValidityStatusEnumG": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "$ref": "DATEXII_3_Common.json#/definitions/ValidityStatusEnum"
+        },
+        "extendedValueG": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "VersionedReference": {
+      "type": "object",
+      "properties": {
+        "idG": {
+          "type": "string"
+        },
+        "versionG": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "idG"
+      ]
+    }
+  }
+}

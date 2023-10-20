@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:prk="http://datex2.eu/schema/3/parking" version="1" targetNamespace="http://datex2.eu/schema/3/parking" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_RoadTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="prk:RoadTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RoadInformationEnhanced">
+    <xs:complexContent>
+      <xs:extension base="loc:RoadInformation">
+        <xs:sequence>
+          <xs:element name="typeOfRoad" type="prk:_RoadTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="roadOrigination" type="com:MultilingualString" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_roadInformationEnhancedExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="RoadTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="motorway" />
+      <xs:enumeration value="trunkRoad" />
+      <xs:enumeration value="mainRoad" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

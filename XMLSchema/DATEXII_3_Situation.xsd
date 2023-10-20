@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:sit="http://datex2.eu/schema/3/situation" version="3.4" targetNamespace="http://datex2.eu/schema/3/situation" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_AccidentCauseEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:AccidentCauseEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_AccidentTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:AccidentTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_CollisionTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:CollisionTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ProbabilityOfOccurrenceEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:ProbabilityOfOccurrenceEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="Accident">
+    <xs:complexContent>
+      <xs:extension base="sit:TrafficElement">
+        <xs:sequence>
+          <xs:element name="accidentCause" type="sit:_AccidentCauseEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="accidentType" type="sit:_AccidentTypeEnum" minOccurs="1" maxOccurs="unbounded" />
+          <xs:element name="collisionType" type="sit:_CollisionTypeEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_accidentExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="AccidentCauseEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="avoidanceOfObstacles" />
+      <xs:enumeration value="driverDistraction" />
+      <xs:enumeration value="driverDrugAbuse" />
+      <xs:enumeration value="driverIllness" />
+      <xs:enumeration value="exceedingSpeedsLimits" />
+      <xs:enumeration value="excessAlcohol" />
+      <xs:enumeration value="excessiveDriverTiredness" />
+      <xs:enumeration value="impermissibleManoeuvre" />
+      <xs:enumeration value="limitedVisibility" />
+      <xs:enumeration value="notKeepingASafeDistance" />
+      <xs:enumeration value="onTheWrongSideOfTheRoad" />
+      <xs:enumeration value="pedestrianInRoad" />
+      <xs:enumeration value="poorLaneAdherence" />
+      <xs:enumeration value="poorMergeEntryOrExitJudgement" />
+      <xs:enumeration value="poorRoadSurfaceCondition" />
+      <xs:enumeration value="poorSurfaceAdherence" />
+      <xs:enumeration value="undisclosed" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="vehicleFailure" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AccidentTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="accident" />
+      <xs:enumeration value="accidentInvolvingHazardousMaterials" />
+      <xs:enumeration value="accidentInvolvingHeavyLorries" />
+      <xs:enumeration value="accidentInvolvingMassTransitVehicle" />
+      <xs:enumeration value="accidentInvolvingPublicTransport" />
+      <xs:enumeration value="accidentInvolvingRadioactiveMaterial" />
+      <xs:enumeration value="accidentInvolvingTrain" />
+      <xs:enumeration value="collision" />
+      <xs:enumeration value="multipleVehicleAccident" />
+      <xs:enumeration value="secondaryAccident" />
+      <xs:enumeration value="seriousInjuryOrFatalAccident" />
+      <xs:enumeration value="vehicleStuckUnderBridge" />
+      <xs:enumeration value="other" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CollisionTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="collisionWithAnimal" />
+      <xs:enumeration value="collisionWithObstacle" />
+      <xs:enumeration value="collisionWithPerson" />
+      <xs:enumeration value="headOnCollision" />
+      <xs:enumeration value="headOnOrSideCollision" />
+      <xs:enumeration value="multipleVehicleCollision" />
+      <xs:enumeration value="rearCollision" />
+      <xs:enumeration value="sideCollision" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ProbabilityOfOccurrenceEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="certain" />
+      <xs:enumeration value="probable" />
+      <xs:enumeration value="riskOf" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Situation">
+    <xs:sequence>
+      <xs:element name="headerInformation" type="com:HeaderInformation" />
+      <xs:element name="situationRecord" type="sit:SituationRecord" maxOccurs="unbounded" />
+      <xs:element name="_situationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SituationPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="situation" type="sit:Situation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_situationPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SituationRecord" abstract="true">
+    <xs:sequence>
+      <xs:element name="situationRecordCreationTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="situationRecordVersionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="probabilityOfOccurrence" type="sit:_ProbabilityOfOccurrenceEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="validity" type="com:Validity" />
+      <xs:element name="locationReference" type="loc:LocationReference" />
+      <xs:element name="_situationRecordExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TrafficElement" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="sit:SituationRecord">
+        <xs:sequence>
+          <xs:element name="_trafficElementExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
