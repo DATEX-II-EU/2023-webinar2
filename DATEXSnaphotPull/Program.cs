@@ -35,20 +35,22 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger(c =>
     {
         c.RouteTemplate = "datexsnapshotpull/{documentname}/openapi.json";
     });
 
+    app.UseStaticFiles();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/datexsnapshotpull/v1.0.0/openapi.json", "DATEX PULL v1.0.0");
-        c.RoutePrefix = "openapi";
+        //c.SwaggerEndpoint("/datexsnapshotpull/v1.0.0/openapi.json", "DATEX PULL v1.0.0");
+        c.SwaggerEndpoint("/datexsnapshotpull/v1.0.0/snapshotpull-1.0.0.json", "DATEX SNapshot PULL v1.0.0");
+        c.RoutePrefix = "datexsnapshotpull";
     });
 
-}
+//}
 
 
 
