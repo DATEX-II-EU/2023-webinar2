@@ -9,3 +9,7 @@
 /DATEXSnaphotPull/Properties/PublishProfiles
 /DATEXSnaphotPull/Properties/ServiceDependencies/DatexOpenAPI - Web Deploy
 /DATEXSnaphotPull/DATEXSnaphotPull.csproj.user
+/CSClient/.vs/CSClient
+/CSClient/bin/Debug/net7.0
+/CSClient/obj
+/DATEXSnaphotPull/.vs/ProjectEvaluation

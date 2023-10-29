@@ -1,0 +1,2623 @@
+﻿{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DATEX II Snapshot Pull API",
+    "description": "This is DATEX II Snapshot PULL API returning MessageContainer.",
+    "contact": {
+      "email": "you@your-company.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://datexopenapi.azurewebsites.net/datexsnapshotpull/1.0.0",
+      "description": "Azure test DATEX API Server"
+    },
+    {
+      "url": "https://localhost:7118/datexsnapshotpull/1.0.0",
+      "description": "Local Dev DATEX API Server"
+    }
+  ],
+  "paths": {
+    "/pullsnapshotdata": {
+      "get": {
+        "tags": [
+          "developers"
+        ],
+        "summary": "DATEX II snapshot pull",
+        "description": "Snapshot pull DATEX II API",
+        "operationId": "pullsnapshotdata",
+        "parameters": [
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "Timestamp of the last response.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result from snapshot pull",
+            "headers": {
+              "Last-Modified": {
+                "description": "Should be used for subsequent requests as If-Modified-Since request header.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageContainer"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If the resource has not been modified since, the response code is 304"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MessageContainer": {
+        "type": "object",
+        "required": [
+          "exchangeInformation"
+        ],
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Json5/definitions/PayloadPublicationG"
+            }
+          },
+          "cisInformation": {
+            "$ref": "#/components/schemas/Json7/definitions/CISInformation"
+          },
+          "exchangeInformation": {
+            "$ref": "#/components/schemas/Json6/definitions/ExchangeInformation"
+          },
+          "informationManagement": {
+            "$ref": "#/components/schemas/Json8/definitions/InformationManagement"
+          },
+          "messageContainerExtensionG": {
+            "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+          }
+        }
+      },
+      "Json": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "NamedAreaCode": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "NamedAreaExtended": {
+            "type": "object",
+            "required": [
+              "namedAreaCode"
+            ],
+            "properties": {
+              "namedAreaCode": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              }
+            }
+          }
+        }
+      },
+      "Json2": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "RoadInformationEnhanced": {
+            "type": "object",
+            "properties": {
+              "typeOfRoad": {
+                "$ref": "#/components/schemas/Json2/definitions/RoadTypeEnumG"
+              },
+              "roadOrigination": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+                }
+              },
+              "roadInformationEnhancedExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/RoadInformation"
+              }
+            ]
+          },
+          "RoadTypeEnum": {
+            "type": "string",
+            "enum": [
+              "motorway",
+              "trunkRoad",
+              "mainRoad",
+              "other",
+              "extendedG"
+            ]
+          },
+          "RoadTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json2/definitions/RoadTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Json3": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "AlertCDirection": {
+            "type": "object",
+            "required": [
+              "alertCAffectedDirection",
+              "alertCDirectionCoded"
+            ],
+            "properties": {
+              "alertCDirectionCoded": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirectionEnumG"
+              },
+              "alertCDirectionNamed": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "alertCAffectedDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/LinearDirectionEnumG"
+              },
+              "alertCDirectionExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCDirectionEnum": {
+            "type": "string",
+            "enum": [
+              "negative",
+              "positive",
+              "extendedG"
+            ]
+          },
+          "AlertCDirectionEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirectionEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "AlertCLinear": {
+            "type": "object",
+            "required": [
+              "alertCLocationCountryCode",
+              "alertCLocationTableNumber",
+              "alertCLocationTableVersion"
+            ],
+            "properties": {
+              "alertCLocationCountryCode": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCLocationTableNumber": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCLocationTableVersion": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCLinearExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCLinearByCode": {
+            "type": "object",
+            "required": [
+              "alertCDirection",
+              "locationCodeForLinearLocation"
+            ],
+            "properties": {
+              "alertCDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirection"
+              },
+              "locationCodeForLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocation"
+              },
+              "alertCLinearByCodeExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLinear"
+              }
+            ]
+          },
+          "AlertCLinearG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingAlertCLinearByCode": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLinearByCode"
+              },
+              "locationReferencingAlertCMethod4Linear": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod4Linear"
+              },
+              "locationReferencingAlertCMethod2Linear": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod2Linear"
+              }
+            }
+          },
+          "AlertCLocation": {
+            "type": "object",
+            "required": [
+              "specificLocation"
+            ],
+            "properties": {
+              "alertCLocationName": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "specificLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "alertCLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCLocationCode": {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          "AlertCMethod2Linear": {
+            "type": "object",
+            "required": [
+              "alertCDirection",
+              "alertCMethod2PrimaryPointLocation",
+              "alertCMethod2SecondaryPointLocation"
+            ],
+            "properties": {
+              "alertCDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirection"
+              },
+              "alertCMethod2PrimaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod2PrimaryPointLocation"
+              },
+              "alertCMethod2SecondaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod2SecondaryPointLocation"
+              },
+              "alertCMethod2LinearExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLinear"
+              }
+            ]
+          },
+          "AlertCMethod2Point": {
+            "type": "object",
+            "required": [
+              "alertCDirection",
+              "alertCMethod2PrimaryPointLocation"
+            ],
+            "properties": {
+              "alertCDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirection"
+              },
+              "alertCMethod2PrimaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod2PrimaryPointLocation"
+              },
+              "alertCMethod2PointExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCPoint"
+              }
+            ]
+          },
+          "AlertCMethod2PrimaryPointLocation": {
+            "type": "object",
+            "required": [
+              "alertCLocation"
+            ],
+            "properties": {
+              "alertCLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocation"
+              },
+              "alertCMethod2PrimaryPointLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCMethod2SecondaryPointLocation": {
+            "type": "object",
+            "required": [
+              "alertCLocation"
+            ],
+            "properties": {
+              "alertCLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocation"
+              },
+              "alertCMethod2SecondaryPointLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCMethod4Linear": {
+            "type": "object",
+            "required": [
+              "alertCDirection",
+              "alertCMethod4PrimaryPointLocation",
+              "alertCMethod4SecondaryPointLocation"
+            ],
+            "properties": {
+              "alertCDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirection"
+              },
+              "alertCMethod4PrimaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod4PrimaryPointLocation"
+              },
+              "alertCMethod4SecondaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod4SecondaryPointLocation"
+              },
+              "alertCMethod4LinearExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLinear"
+              }
+            ]
+          },
+          "AlertCMethod4Point": {
+            "type": "object",
+            "required": [
+              "alertCDirection",
+              "alertCMethod4PrimaryPointLocation"
+            ],
+            "properties": {
+              "alertCDirection": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCDirection"
+              },
+              "alertCMethod4PrimaryPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod4PrimaryPointLocation"
+              },
+              "alertCMethod4PointExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCPoint"
+              }
+            ]
+          },
+          "AlertCMethod4PrimaryPointLocation": {
+            "type": "object",
+            "required": [
+              "offsetDistance",
+              "alertCLocation"
+            ],
+            "properties": {
+              "alertCLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocation"
+              },
+              "offsetDistance": {
+                "$ref": "#/components/schemas/Json3/definitions/OffsetDistance"
+              },
+              "alertCMethod4PrimaryPointLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCMethod4SecondaryPointLocation": {
+            "type": "object",
+            "required": [
+              "offsetDistance",
+              "alertCLocation"
+            ],
+            "properties": {
+              "alertCLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocation"
+              },
+              "offsetDistance": {
+                "$ref": "#/components/schemas/Json3/definitions/OffsetDistance"
+              },
+              "alertCMethod4SecondaryPointLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCPoint": {
+            "type": "object",
+            "required": [
+              "alertCLocationCountryCode",
+              "alertCLocationTableNumber",
+              "alertCLocationTableVersion"
+            ],
+            "properties": {
+              "alertCLocationCountryCode": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCLocationTableNumber": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCLocationTableVersion": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "alertCPointExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "AlertCPointG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingAlertCMethod2Point": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod2Point"
+              },
+              "locationReferencingAlertCMethod4Point": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCMethod4Point"
+              }
+            }
+          },
+          "AltitudeAccuracyEnum": {
+            "type": "string",
+            "enum": [
+              "equalToOrLessThan1Centimetre",
+              "equalToOrLessThan2Centimetres",
+              "equalToOrLessThan5Centimetres",
+              "equalToOrLessThan10Centimetres",
+              "equalToOrLessThan20Centimetres",
+              "equalToOrLessThan50Centimetres",
+              "equalToOrLessThan1Metre",
+              "equalToOrLessThan2Metres",
+              "equalToOrLessThan5Metres",
+              "equalToOrLessThan10Metres",
+              "equalToOrLessThan20Metres",
+              "equalToOrLessThan50Metres",
+              "equalToOrLessThan100Metres",
+              "equalToOrLessThan200Metres",
+              "extendedG"
+            ]
+          },
+          "AltitudeAccuracyEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/AltitudeAccuracyEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "AltitudeConfidence": {
+            "type": "object",
+            "properties": {
+              "altitudeAccuracyCodedValue": {
+                "$ref": "#/components/schemas/Json3/definitions/AltitudeAccuracyEnumG"
+              },
+              "altitudeAccuracyCodedError": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionConfidenceCodedErrorEnumG"
+              },
+              "altitudeConfidenceExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "Carriageway": {
+            "type": "object",
+            "required": [
+              "carriageway"
+            ],
+            "properties": {
+              "carriageway": {
+                "$ref": "#/components/schemas/Json3/definitions/CarriagewayEnumG"
+              },
+              "originalNumberOfLanes": {
+                "$ref": "#/components/schemas/Json5/definitions/Integer"
+              },
+              "lane": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/Lane"
+                }
+              },
+              "carriagewayExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "CarriagewayEnum": {
+            "type": "string",
+            "enum": [
+              "connectingCarriageway",
+              "cycleTrack",
+              "entrySlipRoad",
+              "exitSlipRoad",
+              "flyover",
+              "footpath",
+              "leftHandParallelCarriageway",
+              "leftHandFeederRoad",
+              "mainCarriageway",
+              "oppositeCarriageway",
+              "parallelCarriageway",
+              "rightHandFeederRoad",
+              "rightHandParallelCarriageway",
+              "roundabout",
+              "serviceRoad",
+              "slipRoads",
+              "underpass",
+              "unspecifiedCarriageway",
+              "extendedG"
+            ]
+          },
+          "CarriagewayEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/CarriagewayEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "GmlLinearRing": {
+            "type": "object",
+            "properties": {
+              "gmlLinearRingExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/GmlLineString"
+              }
+            ]
+          },
+          "GmlLineString": {
+            "type": "object",
+            "required": [
+              "posList"
+            ],
+            "properties": {
+              "srsDimension": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "srsName": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "posList": {
+                "$ref": "#/components/schemas/Json3/definitions/GmlPosList"
+              },
+              "gmlLineStringExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "GmlLineStringG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingGmlLinearRing": {
+                "$ref": "#/components/schemas/Json3/definitions/GmlLinearRing"
+              }
+            }
+          },
+          "GmlPosList": {
+            "type": "string"
+          },
+          "HeightCoordinate": {
+            "type": "object",
+            "required": [
+              "heightValue"
+            ],
+            "properties": {
+              "heightValue": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "heightType": {
+                "$ref": "#/components/schemas/Json3/definitions/HeightTypeEnumG"
+              },
+              "altitudeConfidence": {
+                "$ref": "#/components/schemas/Json3/definitions/AltitudeConfidence"
+              },
+              "verticalPositionAccuracy": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionAccuracy"
+              },
+              "heightCoordinateExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "HeightTypeEnum": {
+            "type": "string",
+            "enum": [
+              "ellipsoidalHeight",
+              "gravityRelatedHeight",
+              "relativeHeight",
+              "extendedG"
+            ]
+          },
+          "HeightTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/HeightTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "IsoNamedArea": {
+            "type": "object",
+            "required": [
+              "subdivisionCode",
+              "subdivisionType"
+            ],
+            "properties": {
+              "subdivisionType": {
+                "$ref": "#/components/schemas/Json3/definitions/SubdivisionTypeEnumG"
+              },
+              "subdivisionCode": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "isoNamedAreaExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/NamedArea"
+              }
+            ]
+          },
+          "Lane": {
+            "type": "object",
+            "properties": {
+              "laneNumber": {
+                "$ref": "#/components/schemas/Json5/definitions/Integer"
+              },
+              "laneUsage": {
+                "$ref": "#/components/schemas/Json3/definitions/LaneEnumG"
+              },
+              "laneExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "LaneEnum": {
+            "type": "string",
+            "enum": [
+              "allLanesCompleteCarriageway",
+              "busLane",
+              "busStop",
+              "carPoolLane",
+              "centralReservation",
+              "crawlerLane",
+              "cycleLane",
+              "emergencyLane",
+              "escapeLane",
+              "expressLane",
+              "hardShoulder",
+              "heavyVehicleLane",
+              "layBy",
+              "leftHandTurningLane",
+              "leftLane",
+              "localTrafficLane",
+              "middleLane",
+              "overtakingLane",
+              "rightHandTurningLane",
+              "rightLane",
+              "rushHourLane",
+              "setDownArea",
+              "slowVehicleLane",
+              "throughTrafficLane",
+              "tidalFlowLane",
+              "turningLane",
+              "verge",
+              "extendedG"
+            ]
+          },
+          "LaneEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/LaneEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "LinearDirectionEnum": {
+            "type": "string",
+            "enum": [
+              "both",
+              "opposite",
+              "aligned",
+              "unknown",
+              "extendedG"
+            ]
+          },
+          "LinearDirectionEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/LinearDirectionEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "LinearLocation": {
+            "type": "object",
+            "properties": {
+              "gmlLineString": {
+                "$ref": "#/components/schemas/Json3/definitions/GmlLineStringG"
+              },
+              "linearLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/NetworkLocation"
+              }
+            ]
+          },
+          "LinearLocationG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingSingleRoadLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/SingleRoadLinearLocation"
+              }
+            }
+          },
+          "Location": {
+            "type": "object",
+            "properties": {
+              "coordinatesForDisplay": {
+                "$ref": "#/components/schemas/Json3/definitions/PointCoordinates"
+              },
+              "locationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/LocationReference"
+              }
+            ]
+          },
+          "LocationG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/LinearLocation"
+              },
+              "locationReferencingSingleRoadLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/SingleRoadLinearLocation"
+              },
+              "locationReferencingPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/PointLocation"
+              }
+            }
+          },
+          "LocationReference": {
+            "type": "object",
+            "properties": {
+              "locationReferenceExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "LocationReferenceG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/LinearLocation"
+              },
+              "locationReferencingSingleRoadLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/SingleRoadLinearLocation"
+              },
+              "locationReferencingPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/PointLocation"
+              }
+            }
+          },
+          "NamedArea": {
+            "type": "object",
+            "required": [
+              "areaName"
+            ],
+            "properties": {
+              "areaName": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "namedAreaType": {
+                "$ref": "#/components/schemas/Json3/definitions/NamedAreaTypeEnumG"
+              },
+              "country": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "namedAreaExtensionG": {
+                "$ref": "#/components/schemas/Json3/definitions/NamedAreaExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json5/definitions/NamedArea"
+              }
+            ]
+          },
+          "NamedAreaExtensionTypeG": {
+            "type": "object",
+            "properties": {
+              "NamedAreaExtended": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaExtended"
+              }
+            }
+          },
+          "NamedAreaG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingNutsNamedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/NutsNamedArea"
+              },
+              "locationReferencingIsoNamedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/IsoNamedArea"
+              },
+              "locationExtensionNamedAreaExtended": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaExtended"
+              }
+            }
+          },
+          "NamedAreaTypeEnum": {
+            "type": "string",
+            "enum": [
+              "applicationRegion",
+              "continent",
+              "country",
+              "countryGroup",
+              "carParkArea",
+              "carpoolArea",
+              "fuzzyArea",
+              "industrialArea",
+              "lake",
+              "meteorologicalArea",
+              "metropolitanArea",
+              "municipality",
+              "parkAndRideSite",
+              "ruralCounty",
+              "sea",
+              "touristArea",
+              "trafficArea",
+              "urbanCounty",
+              "order1AdministrativeArea",
+              "order2AdministrativeArea",
+              "order3AdministrativeArea",
+              "order4AdministrativeArea",
+              "order5AdministrativeArea",
+              "policeForceControlArea",
+              "roadOperatorControlArea",
+              "waterArea",
+              "extendedG"
+            ]
+          },
+          "NamedAreaTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/NamedAreaTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "NetworkLocation": {
+            "type": "object",
+            "properties": {
+              "supplementaryPositionalDescription": {
+                "$ref": "#/components/schemas/Json3/definitions/SupplementaryPositionalDescription"
+              },
+              "networkLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/Location"
+              }
+            ]
+          },
+          "NetworkLocationG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/LinearLocation"
+              },
+              "locationReferencingSingleRoadLinearLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/SingleRoadLinearLocation"
+              },
+              "locationReferencingPointLocation": {
+                "$ref": "#/components/schemas/Json3/definitions/PointLocation"
+              }
+            }
+          },
+          "NutsCode": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "NutsCodeTypeEnum": {
+            "type": "string",
+            "enum": [
+              "nuts1Code",
+              "nuts2Code",
+              "nuts3Code",
+              "lau1Code",
+              "lau2Code",
+              "extendedG"
+            ]
+          },
+          "NutsCodeTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/NutsCodeTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "NutsNamedArea": {
+            "type": "object",
+            "required": [
+              "nutsCode",
+              "nutsCodeType"
+            ],
+            "properties": {
+              "nutsCodeType": {
+                "$ref": "#/components/schemas/Json3/definitions/NutsCodeTypeEnumG"
+              },
+              "nutsCode": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "nutsNamedAreaExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/NamedArea"
+              }
+            ]
+          },
+          "OffsetDistance": {
+            "type": "object",
+            "required": [
+              "offsetDistance"
+            ],
+            "properties": {
+              "offsetDistance": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "offsetDistanceExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PointByCoordinates": {
+            "type": "object",
+            "required": [
+              "pointCoordinates"
+            ],
+            "properties": {
+              "bearing": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "pointCoordinates": {
+                "$ref": "#/components/schemas/Json3/definitions/PointCoordinates"
+              },
+              "pointByCoordinatesExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PointCoordinates": {
+            "type": "object",
+            "required": [
+              "latitude",
+              "longitude"
+            ],
+            "properties": {
+              "latitude": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "longitude": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "heightCoordinate": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/HeightCoordinate"
+                }
+              },
+              "positionConfidenceEllipse": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionConfidenceEllipse"
+              },
+              "horizontalPositionAccuracy": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionAccuracy"
+              },
+              "pointCoordinatesExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PointLocation": {
+            "type": "object",
+            "properties": {
+              "pointByCoordinates": {
+                "$ref": "#/components/schemas/Json3/definitions/PointByCoordinates"
+              },
+              "alertCPoint": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/AlertCPointG"
+                }
+              },
+              "pointLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/NetworkLocation"
+              }
+            ]
+          },
+          "PointLocationG": {
+            "type": "object"
+          },
+          "PositionAccuracy": {
+            "type": "object",
+            "properties": {
+              "accuracyPercentile50": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "accuracyPercentile75": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "accuracyPercentile95": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "positionAccuracyExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PositionConfidenceCodedErrorEnum": {
+            "type": "string",
+            "enum": [
+              "outOfRange",
+              "unavailable",
+              "extendedG"
+            ]
+          },
+          "PositionConfidenceCodedErrorEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionConfidenceCodedErrorEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "PositionConfidenceEllipse": {
+            "type": "object",
+            "properties": {
+              "semiMajorAxisLength": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "semiMajorAxisLengthCodedError": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionConfidenceCodedErrorEnumG"
+              },
+              "semiMinorAxisLength": {
+                "$ref": "#/components/schemas/Json5/definitions/Float"
+              },
+              "semiMinorAxisLengthCodedError": {
+                "$ref": "#/components/schemas/Json3/definitions/PositionConfidenceCodedErrorEnumG"
+              },
+              "semiMajorAxisOrientation": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "semiMajorAxisOrientationError": {
+                "$ref": "#/components/schemas/Json5/definitions/Boolean"
+              },
+              "positionConfidenceEllipseExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "RoadInformation": {
+            "type": "object",
+            "properties": {
+              "roadDestination": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "roadName": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "roadNumber": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "roadInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "RoadInformationG": {
+            "type": "object",
+            "properties": {
+              "parkingRoadInformationEnhanced": {
+                "$ref": "#/components/schemas/Json2/definitions/RoadInformationEnhanced"
+              }
+            }
+          },
+          "SingleRoadLinearLocation": {
+            "type": "object",
+            "properties": {
+              "alertCLinear": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/AlertCLinearG"
+                }
+              },
+              "singleRoadLinearLocationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json3/definitions/LinearLocation"
+              }
+            ]
+          },
+          "SubdivisionCode": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "SubdivisionTypeEnum": {
+            "type": "string",
+            "enum": [
+              "administrativeAtoll",
+              "administrativeRegion",
+              "administrativeTerritory",
+              "arcticRegion",
+              "autonomousCity",
+              "autonomousCityInNorthAfrica",
+              "autonomousCommunity",
+              "autonomousDistrict",
+              "autonomousProvince",
+              "autonomousRegion",
+              "canton",
+              "capitalCity",
+              "city",
+              "cityMunicipality",
+              "cityOfCountyRight",
+              "commune",
+              "councilArea",
+              "county",
+              "country",
+              "department",
+              "dependency",
+              "district",
+              "districtMunicipality",
+              "districtWithSpecialStatus",
+              "entity",
+              "geographicalEntity",
+              "governorate",
+              "laender",
+              "localCouncil",
+              "londonBorough",
+              "metropolitanArea",
+              "metropolitanDepartment",
+              "metropolitanDistrict",
+              "metropolitanRegion",
+              "municipality",
+              "overseasDepartment",
+              "overseasRegion",
+              "overseasTerritorialCollectivity",
+              "parish",
+              "province",
+              "quarter",
+              "region",
+              "republic",
+              "republicanCity",
+              "selfGovernedPart",
+              "specialMunicipality",
+              "state",
+              "territorialUnit",
+              "territory",
+              "twoTierCounty",
+              "unitaryAuthority",
+              "ward",
+              "other",
+              "extendedG"
+            ]
+          },
+          "SubdivisionTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json3/definitions/SubdivisionTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "SupplementaryPositionalDescription": {
+            "type": "object",
+            "properties": {
+              "locationDescription": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "carriageway": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/Carriageway"
+                }
+              },
+              "namedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/NamedAreaG"
+              },
+              "roadInformation": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json3/definitions/RoadInformationG"
+                }
+              },
+              "supplementaryPositionalDescriptionExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          }
+        }
+      },
+      "Json4": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "Accident": {
+            "type": "object",
+            "required": [
+              "accidentType"
+            ],
+            "properties": {
+              "accidentCause": {
+                "$ref": "#/components/schemas/Json4/definitions/AccidentCauseEnumG"
+              },
+              "accidentType": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/components/schemas/Json4/definitions/AccidentTypeEnumG"
+                }
+              },
+              "collisionType": {
+                "$ref": "#/components/schemas/Json4/definitions/CollisionTypeEnumG"
+              },
+              "accidentExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json4/definitions/TrafficElement"
+              }
+            ]
+          },
+          "AccidentCauseEnum": {
+            "type": "string",
+            "enum": [
+              "avoidanceOfObstacles",
+              "driverDistraction",
+              "driverDrugAbuse",
+              "driverIllness",
+              "exceedingSpeedsLimits",
+              "excessAlcohol",
+              "excessiveDriverTiredness",
+              "impermissibleManoeuvre",
+              "limitedVisibility",
+              "notKeepingASafeDistance",
+              "onTheWrongSideOfTheRoad",
+              "pedestrianInRoad",
+              "poorLaneAdherence",
+              "poorMergeEntryOrExitJudgement",
+              "poorRoadSurfaceCondition",
+              "poorSurfaceAdherence",
+              "undisclosed",
+              "unknown",
+              "vehicleFailure",
+              "other",
+              "extendedG"
+            ]
+          },
+          "AccidentCauseEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json4/definitions/AccidentCauseEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "AccidentTypeEnum": {
+            "type": "string",
+            "enum": [
+              "accident",
+              "accidentInvolvingHazardousMaterials",
+              "accidentInvolvingHeavyLorries",
+              "accidentInvolvingMassTransitVehicle",
+              "accidentInvolvingPublicTransport",
+              "accidentInvolvingRadioactiveMaterial",
+              "accidentInvolvingTrain",
+              "collision",
+              "multipleVehicleAccident",
+              "secondaryAccident",
+              "seriousInjuryOrFatalAccident",
+              "vehicleStuckUnderBridge",
+              "other",
+              "extendedG"
+            ]
+          },
+          "AccidentTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json4/definitions/AccidentTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "CollisionTypeEnum": {
+            "type": "string",
+            "enum": [
+              "collisionWithAnimal",
+              "collisionWithObstacle",
+              "collisionWithPerson",
+              "headOnCollision",
+              "headOnOrSideCollision",
+              "multipleVehicleCollision",
+              "rearCollision",
+              "sideCollision",
+              "extendedG"
+            ]
+          },
+          "CollisionTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json4/definitions/CollisionTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ProbabilityOfOccurrenceEnum": {
+            "type": "string",
+            "enum": [
+              "certain",
+              "probable",
+              "riskOf",
+              "extendedG"
+            ]
+          },
+          "ProbabilityOfOccurrenceEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json4/definitions/ProbabilityOfOccurrenceEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "Situation": {
+            "type": "object",
+            "required": [
+              "idG",
+              "headerInformation",
+              "situationRecord"
+            ],
+            "properties": {
+              "idG": {
+                "type": "string"
+              },
+              "headerInformation": {
+                "$ref": "#/components/schemas/Json5/definitions/HeaderInformation"
+              },
+              "situationRecord": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/components/schemas/Json4/definitions/SituationRecordG"
+                }
+              },
+              "situationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "SituationPublication": {
+            "type": "object",
+            "properties": {
+              "situation": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json4/definitions/Situation"
+                }
+              },
+              "situationPublicationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json5/definitions/PayloadPublication"
+              }
+            ]
+          },
+          "SituationRecord": {
+            "type": "object",
+            "required": [
+              "idG",
+              "versionG",
+              "situationRecordCreationTime",
+              "situationRecordVersionTime",
+              "probabilityOfOccurrence",
+              "validity",
+              "locationReference"
+            ],
+            "properties": {
+              "idG": {
+                "type": "string"
+              },
+              "versionG": {
+                "type": "string"
+              },
+              "situationRecordCreationTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "situationRecordVersionTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "probabilityOfOccurrence": {
+                "$ref": "#/components/schemas/Json4/definitions/ProbabilityOfOccurrenceEnumG"
+              },
+              "validity": {
+                "$ref": "#/components/schemas/Json5/definitions/Validity"
+              },
+              "locationReference": {
+                "$ref": "#/components/schemas/Json3/definitions/LocationReferenceG"
+              },
+              "situationRecordExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "SituationRecordG": {
+            "type": "object",
+            "properties": {
+              "situationAccident": {
+                "$ref": "#/components/schemas/Json4/definitions/Accident"
+              }
+            }
+          },
+          "TrafficElement": {
+            "type": "object",
+            "properties": {
+              "trafficElementExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Json4/definitions/SituationRecord"
+              }
+            ]
+          },
+          "TrafficElementG": {
+            "type": "object",
+            "properties": {
+              "situationAccident": {
+                "$ref": "#/components/schemas/Json4/definitions/Accident"
+              }
+            }
+          }
+        }
+      },
+      "Json5": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "AngleInDegrees": {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          "Boolean": {
+            "type": "boolean"
+          },
+          "CountryCode": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ExtensionTypeG": {
+            "title": "ExtensionTypeG",
+            "type": "object"
+          },
+          "Float": {
+            "type": "number"
+          },
+          "HeaderInformation": {
+            "type": "object",
+            "required": [
+              "informationStatus"
+            ],
+            "properties": {
+              "informationStatus": {
+                "$ref": "#/components/schemas/Json5/definitions/InformationStatusEnumG"
+              },
+              "headerInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "InformationStatusEnum": {
+            "type": "string",
+            "enum": [
+              "real",
+              "securityExercise",
+              "technicalExercise",
+              "test",
+              "extendedG"
+            ]
+          },
+          "InformationStatusEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json5/definitions/InformationStatusEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "Integer": {
+            "type": "string"
+          },
+          "InternationalIdentifier": {
+            "type": "object",
+            "required": [
+              "country",
+              "nationalIdentifier"
+            ],
+            "properties": {
+              "country": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "nationalIdentifier": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "internationalIdentifierExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "Language": {
+            "type": "string"
+          },
+          "LongString": {
+            "type": "string"
+          },
+          "MetresAsFloat": {
+            "type": "number"
+          },
+          "MetresAsNonNegativeInteger": {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          "MultilingualString": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "values": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json5/definitions/MultiLingualStringValue"
+                }
+              }
+            }
+          },
+          "MultiLingualStringValue": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "lang",
+              "value"
+            ],
+            "properties": {
+              "lang": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "NamedArea": {
+            "type": "object",
+            "properties": {
+              "namedAreaExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "NamedAreaG": {
+            "type": "object",
+            "properties": {
+              "locationReferencingNamedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/NamedArea"
+              },
+              "locationReferencingNutsNamedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/NutsNamedArea"
+              },
+              "locationReferencingIsoNamedArea": {
+                "$ref": "#/components/schemas/Json3/definitions/IsoNamedArea"
+              },
+              "locationExtensionNamedAreaExtended": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaExtended"
+              }
+            }
+          },
+          "NonNegativeInteger": {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          "OverallPeriod": {
+            "type": "object",
+            "required": [
+              "overallStartTime"
+            ],
+            "properties": {
+              "overallStartTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "overallEndTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "overallPeriodExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PayloadPublication": {
+            "type": "object",
+            "required": [
+              "lang",
+              "publicationTime",
+              "publicationCreator"
+            ],
+            "properties": {
+              "lang": {
+                "$ref": "#/components/schemas/Json5/definitions/Language"
+              },
+              "publicationTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "publicationCreator": {
+                "$ref": "#/components/schemas/Json5/definitions/InternationalIdentifier"
+              },
+              "payloadPublicationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PayloadPublicationG": {
+            "type": "object",
+            "required": [
+              "modelBaseVersionG"
+            ],
+            "properties": {
+              "versionG": {
+                "type": "string",
+                "default": "3.4"
+              },
+              "modelBaseVersionG": {
+                "type": "string",
+                "default": "3"
+              },
+              "extensionNameG": {
+                "type": "string"
+              },
+              "extensionVersionG": {
+                "type": "string"
+              },
+              "profileNameG": {
+                "type": "string"
+              },
+              "profileVersionG": {
+                "type": "string"
+              },
+              "situationSituationPublication": {
+                "$ref": "#/components/schemas/Json4/definitions/SituationPublication"
+              }
+            }
+          },
+          "Reference": {
+            "type": "object",
+            "required": [
+              "idG"
+            ],
+            "properties": {
+              "idG": {
+                "type": "string"
+              }
+            }
+          },
+          "String": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "Validity": {
+            "type": "object",
+            "required": [
+              "validityStatus",
+              "validityTimeSpecification"
+            ],
+            "properties": {
+              "validityStatus": {
+                "$ref": "#/components/schemas/Json5/definitions/ValidityStatusEnumG"
+              },
+              "validityTimeSpecification": {
+                "$ref": "#/components/schemas/Json5/definitions/OverallPeriod"
+              },
+              "validityExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ValidityStatusEnum": {
+            "type": "string",
+            "enum": [
+              "active",
+              "planned",
+              "suspended",
+              "definedByValidityTimeSpec",
+              "extendedG"
+            ]
+          },
+          "ValidityStatusEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json5/definitions/ValidityStatusEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "VersionedReference": {
+            "type": "object",
+            "required": [
+              "idG"
+            ],
+            "properties": {
+              "idG": {
+                "type": "string"
+              },
+              "versionG": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Json6": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "Agent": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "name": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "referenceID": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "serviceURL": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "internationalIdentifier": {
+                "$ref": "#/components/schemas/Json5/definitions/InternationalIdentifier"
+              },
+              "agentExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "DynamicInformation": {
+            "type": "object",
+            "required": [
+              "messageGenerationTimestamp",
+              "exchangeStatus"
+            ],
+            "properties": {
+              "exchangeStatus": {
+                "$ref": "#/components/schemas/Json6/definitions/ExchangeStatusEnumG"
+              },
+              "exchangeStatusDescription": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "completedPaylod": {
+                "$ref": "#/components/schemas/Json5/definitions/Boolean"
+              },
+              "messageSequencingNumber": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "messageGenerationTimestamp": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "returnInformation": {
+                "$ref": "#/components/schemas/Json6/definitions/ReturnInformation"
+              },
+              "sessionInformation": {
+                "$ref": "#/components/schemas/Json6/definitions/SessionInformation"
+              },
+              "dynamicInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ExchangeContext": {
+            "type": "object",
+            "required": [
+              "codedExchangeProtocol",
+              "exchangeSpecificationVersion",
+              "supplierOrCisRequester"
+            ],
+            "properties": {
+              "codedExchangeProtocol": {
+                "$ref": "#/components/schemas/Json6/definitions/ProtocolTypeEnumG"
+              },
+              "exchangeSpecificationVersion": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "operatingMode": {
+                "$ref": "#/components/schemas/Json6/definitions/OperatingModeEnumG"
+              },
+              "updateMethod": {
+                "$ref": "#/components/schemas/Json6/definitions/UpdateMethodEnumG"
+              },
+              "nonCodedExchangeProtocol": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "supplierOrCisRequester": {
+                "$ref": "#/components/schemas/Json6/definitions/Agent"
+              },
+              "clientOrCisProvider": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json6/definitions/Agent"
+                }
+              },
+              "subscription": {
+                "$ref": "#/components/schemas/Json6/definitions/Subscription"
+              },
+              "exchangeContextExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ExchangeInformation": {
+            "type": "object",
+            "required": [
+              "exchangeContext",
+              "dynamicInformation"
+            ],
+            "properties": {
+              "messageType": {
+                "$ref": "#/components/schemas/Json6/definitions/MessageTypeEnumG"
+              },
+              "exchangeContext": {
+                "$ref": "#/components/schemas/Json6/definitions/ExchangeContext"
+              },
+              "dynamicInformation": {
+                "$ref": "#/components/schemas/Json6/definitions/DynamicInformation"
+              },
+              "exchangeInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ExchangeReturnEnum": {
+            "type": "string",
+            "enum": [
+              "ack",
+              "closeSessionRequest",
+              "fail",
+              "snapshotSynchronisationRequest",
+              "extendedG"
+            ]
+          },
+          "ExchangeReturnEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/ExchangeReturnEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ExchangeStatusEnum": {
+            "type": "string",
+            "enum": [
+              "closingSession",
+              "offline",
+              "online",
+              "openingSession",
+              "resuming",
+              "undefined",
+              "extendedG"
+            ]
+          },
+          "ExchangeStatusEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/ExchangeStatusEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "InvalidityReasonEnum": {
+            "type": "string",
+            "enum": [
+              "invalidCISInformation",
+              "invalidClient",
+              "invalidExchangeContext",
+              "invalidInformationManagement",
+              "invalidMessage",
+              "invalidPayload",
+              "invalidSequencingNumber",
+              "invalidSession",
+              "invalidSupplier",
+              "other",
+              "extendedG"
+            ]
+          },
+          "InvalidityReasonEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/InvalidityReasonEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "MessageTypeEnum": {
+            "type": "string",
+            "enum": [
+              "CISFeedback",
+              "CISServiceRequest",
+              "closeSession",
+              "keepAlive",
+              "openSession",
+              "payloadDelivery",
+              "return",
+              "extendedG"
+            ]
+          },
+          "MessageTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/MessageTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "OperatingModeEnum": {
+            "type": "string",
+            "enum": [
+              "conditionTriggered",
+              "onOccurrence",
+              "other",
+              "periodic",
+              "extendedG"
+            ]
+          },
+          "OperatingModeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/OperatingModeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ProtocolTypeEnum": {
+            "type": "string",
+            "enum": [
+              "deltaPull",
+              "deltaPush",
+              "other",
+              "simpleCIS",
+              "simplePush",
+              "snapshotPull",
+              "snapshotPush",
+              "statefulCIS",
+              "statefulPush",
+              "extendedG"
+            ]
+          },
+          "ProtocolTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/ProtocolTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ReturnInformation": {
+            "type": "object",
+            "required": [
+              "returnStatus"
+            ],
+            "properties": {
+              "returnStatus": {
+                "$ref": "#/components/schemas/Json6/definitions/ExchangeReturnEnumG"
+              },
+              "returnStatusReason": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "codedInvalidityReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json6/definitions/InvalidityReasonEnumG"
+                }
+              },
+              "returnInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "SessionInformation": {
+            "type": "object",
+            "required": [
+              "sessionID"
+            ],
+            "properties": {
+              "sessionID": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "startSession": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "sessionInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "Subscription": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "referenceID": {
+                "$ref": "#/components/schemas/Json5/definitions/Reference"
+              },
+              "subscriptionStart": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "subscriptionEnd": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "deliveyFrequency": {
+                "$ref": "#/components/schemas/Json3/definitions/AlertCLocationCode"
+              },
+              "validity": {
+                "$ref": "#/components/schemas/Json5/definitions/Validity"
+              },
+              "subscriptionExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "UpdateMethodEnum": {
+            "type": "string",
+            "enum": [
+              "allElementUpdate",
+              "allInformationUpdate",
+              "other",
+              "singleElementUpdate",
+              "snapshot",
+              "extendedG"
+            ]
+          },
+          "UpdateMethodEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json6/definitions/UpdateMethodEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Json7": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "CISInformation": {
+            "type": "object",
+            "properties": {
+              "serviceFeedback": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json7/definitions/ServiceFeedback"
+                }
+              },
+              "serviceRequest": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json7/definitions/ServiceRequest"
+                }
+              },
+              "cisInformationExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "PredefinedServiceEnum": {
+            "type": "string",
+            "enum": [
+              "broadcastDelivery",
+              "other",
+              "tmpActivation",
+              "vmsMessageProcessing",
+              "extendedG"
+            ]
+          },
+          "PredefinedServiceEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json7/definitions/PredefinedServiceEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ServiceActionEnum": {
+            "type": "string",
+            "enum": [
+              "agreement",
+              "cancellation",
+              "implementation",
+              "processing",
+              "statusInformation",
+              "termination",
+              "extendedG"
+            ]
+          },
+          "ServiceActionEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json7/definitions/ServiceActionEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ServiceActionStatusEnum": {
+            "type": "string",
+            "enum": [
+              "compliant",
+              "failed",
+              "notCompliant",
+              "processing",
+              "rejected",
+              "scheduled",
+              "success",
+              "timedOut",
+              "extendedG"
+            ]
+          },
+          "ServiceActionStatusEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json7/definitions/ServiceActionStatusEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          },
+          "ServiceFeedback": {
+            "type": "object",
+            "required": [
+              "serviceRequestStatus",
+              "serviceRequestReference",
+              "serviceProvider"
+            ],
+            "properties": {
+              "serviceRequestFeedbackReason": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "serviceRequestStatus": {
+                "$ref": "#/components/schemas/Json7/definitions/ServiceActionStatusEnumG"
+              },
+              "serviceRequestReference": {
+                "$ref": "#/components/schemas/Json5/definitions/VersionedReference"
+              },
+              "serviceProvider": {
+                "$ref": "#/components/schemas/Json6/definitions/Agent"
+              },
+              "serviceFeedbackExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ServiceRequest": {
+            "type": "object",
+            "required": [
+              "idG",
+              "versionG",
+              "requestedAction",
+              "servicerRequestCreationTime",
+              "servicerRequestVersionTime",
+              "predefinedService",
+              "serviceRequester",
+              "serviceProvider"
+            ],
+            "properties": {
+              "idG": {
+                "type": "string"
+              },
+              "versionG": {
+                "type": "string"
+              },
+              "elementToProcessReference": {
+                "$ref": "#/components/schemas/Json5/definitions/Reference"
+              },
+              "elementToProcessVersionedReference": {
+                "$ref": "#/components/schemas/Json5/definitions/VersionedReference"
+              },
+              "expiryTime": {
+                "$ref": "#/components/schemas/Json5/definitions/VersionedReference"
+              },
+              "externalReference": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "notPredefinedServiceName": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "predefinedService": {
+                "$ref": "#/components/schemas/Json7/definitions/PredefinedServiceEnumG"
+              },
+              "requestedAction": {
+                "$ref": "#/components/schemas/Json7/definitions/ServiceActionEnumG"
+              },
+              "servicerRequestCreationTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "servicerRequestVersionTime": {
+                "$ref": "#/components/schemas/Json5/definitions/DateTime"
+              },
+              "customServiceParameter": {
+                "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+              },
+              "serviceRequester": {
+                "$ref": "#/components/schemas/Json6/definitions/Agent"
+              },
+              "serviceProvider": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/components/schemas/Json6/definitions/Agent"
+                }
+              },
+              "serviceRequestCondition": {
+                "$ref": "#/components/schemas/Json7/definitions/ServiceRequestCondition"
+              },
+              "serviceRequestExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ServiceRequestCondition": {
+            "type": "object",
+            "properties": {
+              "conditionDescription": {
+                "$ref": "#/components/schemas/Json5/definitions/MultilingualString"
+              },
+              "externalIdCondition": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json/definitions/NamedAreaCode"
+                }
+              },
+              "referencedCondition": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json5/definitions/Reference"
+                }
+              },
+              "versionReferencedCondition": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Json5/definitions/VersionedReference"
+                }
+              },
+              "serviceRequestConditionExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          }
+        }
+      },
+      "Json8": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "definitions": {
+          "ElementReference": {
+            "type": "object",
+            "required": [
+              "managementStatus"
+            ],
+            "properties": {
+              "managementStatus": {
+                "$ref": "#/components/schemas/Json8/definitions/ManagementTypeEnumG"
+              },
+              "reference": {
+                "$ref": "#/components/schemas/Json5/definitions/Reference"
+              },
+              "versionedReference": {
+                "$ref": "#/components/schemas/Json5/definitions/VersionedReference"
+              },
+              "elementReferenceExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "InformationManagedResourceList": {
+            "type": "object",
+            "required": [
+              "elementReference"
+            ],
+            "properties": {
+              "elementReference": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/components/schemas/Json8/definitions/ElementReference"
+                }
+              },
+              "informationManagedResourceListExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "InformationManagement": {
+            "type": "object",
+            "properties": {
+              "informationManagedResourceList": {
+                "$ref": "#/components/schemas/Json8/definitions/InformationManagedResourceList"
+              },
+              "informationManagementExtensionG": {
+                "$ref": "#/components/schemas/Json5/definitions/ExtensionTypeG"
+              }
+            }
+          },
+          "ManagementTypeEnum": {
+            "type": "string",
+            "enum": [
+              "cancelled",
+              "closed",
+              "extendedG"
+            ]
+          },
+          "ManagementTypeEnumG": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "$ref": "#/components/schemas/Json8/definitions/ManagementTypeEnum"
+              },
+              "extendedValueG": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "developers",
+      "description": "Operations available to regular developers"
+    }
+  ]
+}
