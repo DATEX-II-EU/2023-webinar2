@@ -1,0 +1,1 @@
+Nswag openapi2cscontroller /input:wwwroot/DATEXSnapshotPull/v1.0.0/snapshotpull-1.0.0.yaml /classname:Datex /namespace:DATEXSnapshotPull /output:Controllers/DatexController.cs /UseLiquidTemplates:true /AspNetNamespace:"Microsoft.AspNetCore.Mvc" /ControllerBaseClass:"Microsoft.AspNetCore.Mvc.Controller" /controllerstyle:partial /jsonLibrary:NewtonsoftJson	

@@ -1,0 +1,48 @@
+openapi: 3.0.0
+servers:
+    # Added your servers here
+  - description: DATEX API Server
+    url: https://your.server.com/datexsnapshotpull/1.0.0
+info:
+  description: This is DATEX II Snapshot PULL API returning MessageContainer.
+  version: 1.0.0
+  title: DATEX II Snapshot Pull API
+  contact:
+    email: you@your-company.com
+tags:
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /pullsnapshotdata:
+      get:
+        tags:
+          - developers
+        summary: DATEX II snapshot pull
+        operationId: pullsnapshotdata
+        description: Snapshot pull DATEX II API
+        parameters: 
+          - name: If-Modified-Since
+            in: header
+            required: false
+            description: Timestamp of the last response.
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Result from snapshot pull
+            headers:
+                Last-Modified:
+                  required: false
+                  schema: 
+                    type: string
+                  description: Should be used for subsequent requests as If-Modified-Since request header.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageContainer'
+          '304':
+            description:  If the resource has not been modified since, the response code is 304
+components:
+  schemas:
+    MessageContainer:
+      $ref: "DATEXII_3_MessageContainer.json#/definitions/MessageContainer"
