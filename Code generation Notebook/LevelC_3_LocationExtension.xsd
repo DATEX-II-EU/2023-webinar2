@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:locx="http://levelC/schema/3/locationExtension" version="3.4" targetNamespace="http://levelC/schema/3/locationExtension" xmlns:com="http://levelC/schema/3/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://levelC/schema/3/common" schemaLocation="LevelC_3_Common.xsd" />
+  <xs:simpleType name="NamedAreaCode">
+    <xs:restriction base="com:String">
+      <xs:maxLength value="8" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:egi="http://levelC/schema/3/energyInfrastructure" version="3.4" targetNamespace="http://levelC/schema/3/energyInfrastructure" xmlns:com="http://levelC/schema/3/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://levelC/schema/3/common" schemaLocation="LevelC_3_Common.xsd" />
+  <xs:simpleType name="Ampere">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="Units">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="Volt">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+  <xs:simpleType name="Watt">
+    <xs:restriction base="com:Float" />
+  </xs:simpleType>
+</xs:schema>

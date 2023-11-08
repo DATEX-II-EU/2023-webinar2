@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:roa="http://levelC/schema/3/roadTrafficData" version="3.4" targetNamespace="http://levelC/schema/3/roadTrafficData" xmlns:com="http://levelC/schema/3/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://levelC/schema/3/common" schemaLocation="LevelC_3_Common.xsd" />
+  <xs:simpleType name="DensityVehiclesPerKilometre">
+    <xs:restriction base="com:NonNegativeInteger" />
+  </xs:simpleType>
+  <xs:simpleType name="PassengerCarUnitsPerHour">
+    <xs:restriction base="com:NonNegativeInteger" />
+  </xs:simpleType>
+  <xs:simpleType name="VehiclesPerDay">
+    <xs:restriction base="com:NonNegativeInteger" />
+  </xs:simpleType>
+</xs:schema>
