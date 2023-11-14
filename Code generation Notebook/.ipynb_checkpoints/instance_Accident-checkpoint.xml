@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d2:payload xmlns:com="http://levelC/schema/3/common"
+ xmlns:d2="http://levelC/schema/3/d2Payload"
+ xmlns:loc="http://levelC/schema/3/locationReferencing"
+ xmlns:sit="http://levelC/schema/3/situation"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://levelC/schema/3/d2Payload LevelC_3_D2Payload.xsd" xsi:type="sit:SituationPublication" lang="sv" modelBaseVersion="3">
+    <com:publicationTime>2023-10-30T12:46:17.4184229+00:00</com:publicationTime>
+    <com:publicationCreator>
+        <com:country>SE</com:country>
+        <com:nationalIdentifier>123</com:nationalIdentifier>
+    </com:publicationCreator>
+    <sit:situation id="c76fbe31-1042-4b96-9399-a8871c0acf60">
+        <sit:headerInformation>
+            <com:informationStatus>real</com:informationStatus>
+        </sit:headerInformation>
+        <sit:situationRecord id="2f6c7b6c-6a77-44a2-9f13-cb53934faaab" version="1" xsi:type="sit:Accident">
+            <sit:situationRecordCreationTime>2023-10-30T12:46:17.4193391+00:00</sit:situationRecordCreationTime>
+            <sit:situationRecordVersionTime>2023-10-30T12:46:17.4193822+00:00</sit:situationRecordVersionTime>
+            <sit:probabilityOfOccurrence>certain</sit:probabilityOfOccurrence>
+            <sit:validity>
+                <com:validityStatus>active</com:validityStatus>
+                <com:validityTimeSpecification>
+                    <com:overallStartTime>2023-10-30T12:46:17.4196935+00:00</com:overallStartTime>
+                </com:validityTimeSpecification>
+            </sit:validity>
+            <sit:locationReference xsi:type="loc:PointLocation">
+                <loc:coordinatesForDisplay>
+                    <loc:latitude>53.01894771995707</loc:latitude>
+                    <loc:longitude>5.204404542910014</loc:longitude>
+                </loc:coordinatesForDisplay>
+                <loc:pointByCoordinates>
+                    <loc:bearing>0</loc:bearing>
+                    <loc:pointCoordinates>
+                        <loc:latitude>53.01894771995707</loc:latitude>
+                        <loc:longitude>5.204404542910014</loc:longitude>
+                    </loc:pointCoordinates>
+                </loc:pointByCoordinates>
+            </sit:locationReference>
+            <sit:accidentType>collision</sit:accidentType>
+            <sit:collisionType>collisionWithAnimal</sit:collisionType>
+        </sit:situationRecord>
+    </sit:situation>
+    <sit:situation id="ad502fde-7058-41b7-a0a7-89e91ff33a1f">
+        <sit:headerInformation>
+            <com:informationStatus>real</com:informationStatus>
+        </sit:headerInformation>
+        <sit:situationRecord id="50a4cfd9-26b5-4584-96ca-c06e24787def" version="1" xsi:type="sit:Accident">
+            <sit:situationRecordCreationTime>2023-10-30T12:50:36.5123591+00:00</sit:situationRecordCreationTime>
+            <sit:situationRecordVersionTime>2023-10-30T12:50:36.5123591+00:00</sit:situationRecordVersionTime>
+            <sit:probabilityOfOccurrence>certain</sit:probabilityOfOccurrence>
+            <sit:validity>
+                <com:validityStatus>active</com:validityStatus>
+                <com:validityTimeSpecification>
+                    <com:overallStartTime>2023-10-30T12:50:36.5123591+00:00</com:overallStartTime>
+                </com:validityTimeSpecification>
+            </sit:validity>
+            <sit:locationReference xsi:type="loc:PointLocation">
+                <loc:coordinatesForDisplay>
+                    <loc:latitude>52.357929609995075</loc:latitude>
+                    <loc:longitude>4.848115430165523</loc:longitude>
+                </loc:coordinatesForDisplay>
+                <loc:pointByCoordinates>
+                    <loc:pointCoordinates>
+                        <loc:latitude>52.357929609995075</loc:latitude>
+                        <loc:longitude>4.848115430165523</loc:longitude>
+                    </loc:pointCoordinates>
+                </loc:pointByCoordinates>
+            </sit:locationReference>
+            <sit:accidentType>accident</sit:accidentType>
+        </sit:situationRecord>
+    </sit:situation>
+    <sit:situation id="702e60cd-499e-47b7-bee8-35bc414e5eda">
+        <sit:headerInformation>
+            <com:informationStatus>real</com:informationStatus>
+        </sit:headerInformation>
+        <sit:situationRecord id="d85dcca9-73f0-43cd-b450-1e359a4df040" version="1" xsi:type="sit:Accident">
+            <sit:situationRecordCreationTime>2023-10-30T12:53:38.3725845+00:00</sit:situationRecordCreationTime>
+            <sit:situationRecordVersionTime>2023-10-30T12:53:38.3725845+00:00</sit:situationRecordVersionTime>
+            <sit:probabilityOfOccurrence>certain</sit:probabilityOfOccurrence>
+            <sit:validity>
+                <com:validityStatus>active</com:validityStatus>
+                <com:validityTimeSpecification>
+                    <com:overallStartTime>2023-10-30T12:53:38.3725845+00:00</com:overallStartTime>
+                </com:validityTimeSpecification>
+            </sit:validity>
+            <sit:locationReference xsi:type="loc:PointLocation">
+                <loc:coordinatesForDisplay>
+                    <loc:latitude>52.88900432626247</loc:latitude>
+                    <loc:longitude>5.02553852006629</loc:longitude>
+                </loc:coordinatesForDisplay>
+                <loc:pointByCoordinates>
+                    <loc:pointCoordinates>
+                        <loc:latitude>52.88900432626247</loc:latitude>
+                        <loc:longitude>5.02553852006629</loc:longitude>
+                    </loc:pointCoordinates>
+                </loc:pointByCoordinates>
+            </sit:locationReference>
+            <sit:accidentType>accidentInvolvingHazardousMaterials</sit:accidentType>
+        </sit:situationRecord>
+    </sit:situation>
+</d2:payload>
