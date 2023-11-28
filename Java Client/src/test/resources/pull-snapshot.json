@@ -1,0 +1,91 @@
+{
+    "payload": [
+        {
+            "versionG": "3.4",
+            "modelBaseVersionG": "3",
+            "situationSituationPublication": {
+                "situation": [
+                    {
+                        "idG": "8ce62891-698c-4437-8fe2-3eed8a8a183f",
+                        "headerInformation": {
+                            "informationStatus": {
+                                "value": "real"
+                            }
+                        },
+                        "situationRecord": [
+                            {
+                                "situationAccident": {
+                                    "accidentType": [
+                                        {
+                                            "value": "accident"
+                                        }
+                                    ],
+                                    "collisionType": {
+                                        "value": "collisionWithAnimal"
+                                    },
+                                    "idG": "d867af14-4a5d-4015-8925-f3f37033ff86",
+                                    "versionG": "1",
+                                    "situationRecordCreationTime": "2023-11-12T14:01:27.8380047+00:00",
+                                    "situationRecordVersionTime": "2023-11-12T14:01:27.8380446+00:00",
+                                    "probabilityOfOccurrence": {
+                                        "value": "certain"
+                                    },
+                                    "validity": {
+                                        "validityStatus": {
+                                            "value": "active"
+                                        },
+                                        "validityTimeSpecification": {
+                                            "overallStartTime": "2023-11-12T14:01:27.8383969+00:00",
+                                            "overallEndTime": "2023-11-12T16:01:27.8384356+00:00"
+                                        }
+                                    },
+                                    "locationReference": {
+                                        "locationReferencingPointLocation": {
+                                            "pointByCoordinates": {
+                                                "bearing": 0,
+                                                "pointCoordinates": {
+                                                    "latitude": 53.01894771995707,
+                                                    "longitude": 5.204404542910014
+                                                }
+                                            },
+                                            "coordinatesForDisplay": {
+                                                "latitude": 53.01894771995707,
+                                                "longitude": 5.204404542910014
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "lang": "sv",
+                "publicationTime": "2023-11-12T14:01:27.8370031+00:00",
+                "publicationCreator": {
+                    "country": "SE",
+                    "nationalIdentifier": "123"
+                }
+            }
+        }
+    ],
+    "exchangeInformation": {
+        "messageType": {
+            "value": "payloadDelivery"
+        },
+        "exchangeContext": {
+            "codedExchangeProtocol": {
+                "value": "snapshotPull"
+            },
+            "exchangeSpecificationVersion": "1",
+            "supplierOrCisRequester": {}
+        },
+        "dynamicInformation": {
+            "exchangeStatus": {
+                "value": "online"
+            },
+            "completedPaylod": false,
+            "messageSequencingNumber": 0,
+            "messageGenerationTimestamp": "2023-11-12T14:01:27.8395755+00:00"
+        }
+    }
+}
